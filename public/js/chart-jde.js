@@ -158,7 +158,7 @@ function drawHighChart() {
 
 socket.on('updateAvailabilityData', function (itemAvailabilityData) {
 
-    console.log('Data received', itemAvailabilityData);
+    // console.log('Data received', itemAvailabilityData);
 
     highChartIns.xAxis[0].setCategories(itemAvailabilityData.itemNames, true);
     highChartIns.series[0].setData(itemAvailabilityData.itemAvailableNos, true);
