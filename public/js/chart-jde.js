@@ -6,7 +6,7 @@ var chartOptions = {
         type: 'bar'
     },
     title: {
-        text: 'Item availability'
+        text: 'Item availability 1'
     },
     subtitle: {
         text: 'Source: JDE EnterpriseOne, Forza DV910'
@@ -56,7 +56,64 @@ var chartOptions = {
     }]
 }
 
+// var chartOptions2 = {
+//     chart: {
+//         renderTo: 'container2',
+//         type: 'bar'
+//     },
+//     title: {
+//         text: 'Item availability 2'
+//     },
+//     subtitle: {
+//         text: 'Source: JDE EnterpriseOne, Forza DV910'
+//     },
+//     xAxis: {
+//         categories: ['Items'],
+//         title: {
+//             text: null
+//         }
+//     },
+//     yAxis: {
+//         title: {
+//             text: 'Availability',
+//             align: 'high'
+//         },
+//         labels: {
+//             overflow: 'justify'
+//         }
+//     },
+//     tooltip: {
+//         valueSuffix: ' primary UOM'
+//     },
+//     plotOptions: {
+//         bar: {
+//             dataLabels: {
+//                 enabled: true
+//             }
+//         }
+//     },
+//     // legend: {
+//     //     layout: 'vertical',
+//     //     align: 'right',
+//     //     verticalAlign: 'top',
+//     //     x: -40,
+//     //     y: 80,
+//     //     floating: true,
+//     //     borderWidth: 1,
+//     //     backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+//     //     shadow: true
+//     // },
+//     credits: {
+//         enabled: false
+//     },
+//     series: [{
+//         name: 'Availability',
+//         data: [0]
+//     }]
+// }
+
 var highChartIns = null;
+// var highChartIns2 = null;
 
 socket.on('connect', function () {
     console.log('Connected to server');
@@ -96,16 +153,31 @@ socket.on('disconnect', function () {
 
 function drawHighChart() {
     highChartIns = new Highcharts.chart(chartOptions);
+    // highChartIns2 = new Highcharts.chart(chartOptions2);
 }
 
 socket.on('updateAvailabilityData', function (itemAvailabilityData) {
 
+    console.log('Data received', itemAvailabilityData);
+
     highChartIns.xAxis[0].setCategories(itemAvailabilityData.itemNames, true);
     highChartIns.series[0].setData(itemAvailabilityData.itemAvailableNos, true);
+    highChartIns.redraw();
+
+    
 });
+
+// socket.on('updateAvailabilityData2', function (itemAvailabilityData) {
+
+//     console.log('Data received at chart 2', itemAvailabilityData);
+
+//     highChartIns2.xAxis[0].setCategories(itemAvailabilityData.itemNames, true);
+//     highChartIns2.series[0].setData(itemAvailabilityData.itemAvailableNos, true);
+//     highChartIns2.redraw();
+// });
 
 function timerFunction() {
     setInterval(function () {
         socket.emit('getAvailabilityData');
-    }, 10000);
+    }, 3000);
 }

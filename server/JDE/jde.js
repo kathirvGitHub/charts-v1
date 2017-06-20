@@ -1,5 +1,7 @@
 const axios = require('axios');
 const socketIO = require('socket.io');
+// const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
+const JDEServerURL = 'http://172.19.2.24:9082';
 
 getJDEAvailability = (socket, user) => {
 
@@ -8,7 +10,7 @@ getJDEAvailability = (socket, user) => {
         itemAvailableNos: []
     }
 
-    var jdeLoginURL = 'http://aisdv910.forza-solutions.com:9082/jderest/tokenrequest';
+    var jdeLoginURL = `${JDEServerURL}/jderest/tokenrequest`;
     var jdeLoginData = {
         "username": user.jdeUserID,
         "password": user.jdePassword,
@@ -17,8 +19,8 @@ getJDEAvailability = (socket, user) => {
         "role": "*ALL"
     };
 
-    var jdeLogoutURL = 'http://aisdv910.forza-solutions.com:9082/jderest/tokenrequest/logout';
-    var jdeFormServiceURL = 'http://aisdv910.forza-solutions.com:9082/jderest/formservice';
+    var jdeLogoutURL = `${JDEServerURL}/jderest/tokenrequest/logout`;
+    var jdeFormServiceURL = `${JDEServerURL}/jderest/formservice`;
 
     var token = null;
 

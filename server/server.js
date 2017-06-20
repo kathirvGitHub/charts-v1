@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 const { Users } = require('./utils/users');
 const { isRealString } = require('./utils/validation')
 
+// const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
+const JDEServerURL = 'http://172.19.2.24:9082';
+
 const { getJDEAvailability } = require('./JDE/jde');
 
 const publicPath = path.join(__dirname, '../public');
@@ -28,21 +31,30 @@ io.on('connection', (socket) => {
 
     socket.on('join', (params, callback) => {
         // console.log(params);
+
+        if (!params) {
+            return callback('Session refreshed. Please login again!');
+        }
+
         if (!isRealString(params.user)) {
             users.removeUser(params.user);
-            return callback('Empty User ID!');
+            return callback('Empty User ID!'); 
         }
 
         var user = users.getUser(params.user);
 
+        if(!user){
+            return callback('User invalid/Session refreshed. Please login again!');
+        }
+
         if (!isRealString(user.jdePassword)) {
             users.removeUser(params.user);
-            return callback('Empty Password!');
+            return callback('Empty Password!'); 
         }
 
         // validate JDE login
 
-        var jdeLoginURL = 'http://aisdv910.forza-solutions.com:9082/jderest/tokenrequest';
+        var jdeLoginURL = `${JDEServerURL}/jderest/tokenrequest`;
         var jdeLoginData = {
             "username": user.jdeUserID,
             "password": user.jdePassword,
@@ -53,7 +65,7 @@ io.on('connection', (socket) => {
 
         axios.post(jdeLoginURL, jdeLoginData).then((response) => {
             // Logged in sucessfully
-            var jdeLogoutURL = 'http://aisdv910.forza-solutions.com:9082/jderest/tokenrequest/logout';
+            var jdeLogoutURL = `${JDEServerURL}/jderest/tokenrequest/logout`;
             var jdeLogoutData = {
                 "token": response.data.userInfo.token
             };
@@ -79,6 +91,15 @@ io.on('connection', (socket) => {
         //     itemNames : ['Item Z', 'Item Y', 'Item X', 'Item W', 'Item V'],
         //     itemAvailableNos : [getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100)]
         // };
+
+        // socket.emit('updateAvailabilityData', itemAvailabilityData);
+
+        // var itemAvailabilityData = {
+        //     itemNames : ['Item Z', 'Item Y', 'Item X', 'Item W', 'Item V'],
+        //     itemAvailableNos : [getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100), getRandomInt(-100, 100)]
+        // };
+
+        // socket.emit('updateAvailabilityData2', itemAvailabilityData);
 
         var user = users.getUserBySocketID(socket.id);
 
