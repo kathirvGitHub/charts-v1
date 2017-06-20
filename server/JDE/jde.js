@@ -1,7 +1,7 @@
 const axios = require('axios');
 const socketIO = require('socket.io');
-// const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
-const JDEServerURL = 'http://172.19.2.24:9082';
+const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
+// const JDEServerURL = 'http://172.19.2.24:9082';
 
 getJDEAvailability = (socket, user) => {
 

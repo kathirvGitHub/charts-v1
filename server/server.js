@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const { Users } = require('./utils/users');
 const { isRealString } = require('./utils/validation')
 
-// const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
-const JDEServerURL = 'http://172.19.2.24:9082';
+const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
+// const JDEServerURL = 'http://172.19.2.24:9082';
 
 const { getJDEAvailability } = require('./JDE/jde');
 
