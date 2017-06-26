@@ -3,10 +3,11 @@ class Users {
         this.users = [];
     }
 
-    addUser(jdeUserID, jdePassword, socketID){
+    addUser(jdeUserID, jdePassword, jdeAppUserID, socketID){
         var user = {
             jdeUserID,
             jdePassword,
+            jdeAppUserID,
             socketID
         };
         this.users.push(user);
@@ -16,7 +17,7 @@ class Users {
 
     getUser(jdeUserID){
         var usersByID = this.users.filter((user) => {
-            return user.jdeUserID === jdeUserID;
+            return user.jdeAppUserID === jdeUserID;
         });
         console.log('getUser', usersByID);
         return usersByID[0];
@@ -33,7 +34,7 @@ class Users {
     removeUser(jdeUserID){
         var removedUser = this.getUser(jdeUserID);
         var usersOtherIDs = this.users.filter((user) => {
-            return user.jdeUserID !== jdeUserID;
+            return user.jdeAppUserID !== jdeUserID;
         });
         this.users = usersOtherIDs;
         console.log('removeUser', removedUser);
@@ -51,7 +52,7 @@ class Users {
     updateSocketID(jdeUserID, socketID){
         var removedUser = this.removeUser(jdeUserID);
         removedUser.socketID = socketID;
-        this.addUser(removedUser.jdeUserID, removedUser.jdePassword, removedUser.socketID);
+        this.addUser(removedUser.jdeUserID, removedUser.jdePassword, removedUser.jdeAppUserID, removedUser.socketID);
         console.log('updateSocketID', removedUser);
     }
 

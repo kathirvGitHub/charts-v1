@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const { Users } = require('./utils/users');
 const { isRealString } = require('./utils/validation')
 
-const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082' ;
+const JDEServerURL = 'http://aisdv910.forza-solutions.com:9082';
 // const JDEServerURL = 'http://172.19.2.24:9082';
 
 const { getJDEAvailability } = require('./JDE/jde');
@@ -38,18 +38,29 @@ io.on('connection', (socket) => {
 
         if (!isRealString(params.user)) {
             users.removeUser(params.user);
-            return callback('Empty User ID!'); 
+            return callback('Empty User ID!');
+        }
+
+        var jdePassword = params.jdePassword;
+        var jdeUser = params.jdeUser;
+
+        /* New functionality to directly access the page from JDE, passing the user info as query string */
+
+        if (jdePassword && jdeUser) {
+            /* password and jdeUser exists, so create user profile dynamically since they would have not come via login screen */
+            users.removeUser(params.user);
+            users.addUser(jdeUser, jdePassword, params.user);
         }
 
         var user = users.getUser(params.user);
 
-        if(!user){
+        if (!user) {
             return callback('User invalid/Session refreshed. Please login again!');
         }
 
         if (!isRealString(user.jdePassword)) {
             users.removeUser(params.user);
-            return callback('Empty Password!'); 
+            return callback('Empty Password!');
         }
 
         // validate JDE login
@@ -81,7 +92,7 @@ io.on('connection', (socket) => {
             console.log('Invalid User Credentials');
             users.removeUser(user.jdeUserID);
             socket.emit('invalidJDEUser');
-        })       
+        })
 
         callback();
     });
@@ -103,9 +114,9 @@ io.on('connection', (socket) => {
 
         var user = users.getUserBySocketID(socket.id);
 
-        if(user){
+        if (user) {
             getJDEAvailability(socket, user);
-        }        
+        }
 
     });
 
@@ -124,7 +135,7 @@ app.post('/chart.html', (req, res) => {
     // var sessionid = '12368';
     // res.sendFile(publicPath + '/chat.html');
     users.removeUser(req.body.jdeUserID);
-    users.addUser(req.body.jdeUserID, req.body.jdePassword);
+    users.addUser(req.body.jdeUserID, req.body.jdePassword, req.body.jdeUserID);
     res.redirect(`/chart.html?user=${req.body.jdeUserID}`);
 });
 

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JDE | Chart v1 Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <style type="text/css">
+        .highcharts-yaxis-grid .highcharts-grid-line {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!--<div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+    <div id="container2" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+    
+    <script src = "/socket.io/socket.io.js"> </script>
+
+    
+    
+    <script src = "/js/libs/deparam.js"> </script>
+    <script src = "/js/chart-jde.js"> </script>-->
+
+    <!-- Latest compiled and minified CSS -->
+
+
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="http://code.highcharts.com/modules/data.js"></script>
+    <script src="http://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="http://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+    <script src="/js/libs/jquery-3.2.1.min.js">
+
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <!--<link href="/css/grid.css" rel="stylesheet">-->
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <!--<p class="lead"></p>-->
+        </div>
+
+        <!--<h3>Three equal columns</h3>
+        <p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices,
+            tablets and below, the columns will automatically stack.</p>-->
+        <div class="row">
+            <div class="col-md-1">
+                <div class="row">   
+                    <h5><span class="label label-default">Total Invoices : 10</span></h5>
+                    <h5><span class="label label-primary">Processed : 8</span></h5>
+                    <h5><span class="label label-success">Approved : 5</span></h5>
+                    <h5><span class="label label-info">Waiting : 2</span></h5>
+                    <h5><span class="label label-warning">Rejected : 1</span></h5>
+                    <h5><span class="label label-danger">Errored : 2</span></h5>                    
+                </div>
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div id="container_chart1" style="min-width: 310px; max-width: 800px; height: 350px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="container_chart2" style="min-width: 310px; max-width: 800px; height: 350px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="container_chart3" style="width: 320px; height: 175px; float: left"></div>
+                        <div id="container_chart4" style="width: 320px; height: 175px; float: left"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="container_chart5" style="min-width: 310px; max-width: 800px; height: 350px; margin: 0 auto"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="container_chart6" style="min-width: 310px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="container_chart7" style="width: 400px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /container -->
+
+        <script>
+            $(function () {
+
+                var chart1Options = {
+                    chart: {
+                        renderTo: 'container_chart1',
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Item availability 1'
+                    },
+                    subtitle: {
+                        text: 'Source: JDE EnterpriseOne, Forza DV910'
+                    },
+                    xAxis: {
+                        categories: ['Items'],
+                        title: {
+                            text: ['Item 1', 'Item 2', 'Item 3']
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Availability',
+                            align: 'high'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' primary UOM'
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    // legend: {
+                    //     layout: 'vertical',
+                    //     align: 'right',
+                    //     verticalAlign: 'top',
+                    //     x: -40,
+                    //     y: 80,
+                    //     floating: true,
+                    //     borderWidth: 1,
+                    //     backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    //     shadow: true
+                    // },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Availability',
+                        data: [1, 3, -1]
+                    }]
+                }
+
+                new Highcharts.chart(chart1Options);
+
+                var chart2Options = {
+                    chart: {
+                        renderTo: 'container_chart2',
+                        type: 'column',
+                        options3d: {
+                            enabled: true,
+                            alpha: 15,
+                            beta: 15,
+                            depth: 50,
+                            viewDistance: 25
+                        }
+                    },
+                    title: {
+                        text: 'Chart rotation demo'
+                    },
+                    subtitle: {
+                        text: 'Test options by dragging the sliders below'
+                    },
+                    plotOptions: {
+                        column: {
+                            depth: 25
+                        }
+                    },
+                    series: [{
+                        data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                    }]
+                }
+
+                new Highcharts.chart(chart2Options);
+
+                var chart3Options = {
+
+                    chart: {
+                        renderTo: 'container_chart3',
+                        type: 'solidgauge'
+                    },
+
+                    title: null,
+
+                    pane: {
+                        center: ['50%', '85%'],
+                        size: '140%',
+                        startAngle: -90,
+                        endAngle: 90,
+                        background: {
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                            innerRadius: '60%',
+                            outerRadius: '100%',
+                            shape: 'arc'
+                        }
+                    },
+
+                    tooltip: {
+                        enabled: false
+                    },
+
+                    // the value axis
+                    yAxis: {
+                        stops: [
+                            [0.1, '#55BF3B'], // green
+                            [0.5, '#DDDF0D'], // yellow
+                            [0.9, '#DF5353'] // red
+                        ],
+                        lineWidth: 0,
+                        minorTickInterval: null,
+                        tickAmount: 2,
+                        title: {
+                            y: -70
+                        },
+                        labels: {
+                            y: 16
+                        }
+                    },
+
+                    plotOptions: {
+                        solidgauge: {
+                            dataLabels: {
+                                y: 5,
+                                borderWidth: 0,
+                                useHTML: true
+                            }
+                        }
+                    }
+                }
+
+                var chartSpeed = new Highcharts.chart(Highcharts.merge(chart3Options, {
+                    yAxis: {
+                        min: 0,
+                        max: 200,
+                        title: {
+                            text: 'Speed'
+                        }
+                    },
+
+                    credits: {
+                        enabled: false
+                    },
+
+                    series: [{
+                        name: 'Speed',
+                        data: [80],
+                        dataLabels: {
+                            format: '<div style="text-align:center"><span style="font-size:15px;color:' +
+                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                            '<span style="font-size:12px;color:silver">km/h</span></div>'
+                        },
+                        tooltip: {
+                            valueSuffix: ' km/h'
+                        }
+                    }]
+
+                }));
+
+                var chart4Options = {
+
+                    chart: {
+                        renderTo: 'container_chart4',
+                        type: 'solidgauge'
+                    },
+
+                    title: null,
+
+                    pane: {
+                        center: ['50%', '85%'],
+                        size: '140%',
+                        startAngle: -90,
+                        endAngle: 90,
+                        background: {
+                            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                            innerRadius: '60%',
+                            outerRadius: '100%',
+                            shape: 'arc'
+                        }
+                    },
+
+                    tooltip: {
+                        enabled: false
+                    },
+
+                    // the value axis
+                    yAxis: {
+                        stops: [
+                            [0.1, '#55BF3B'], // green
+                            [0.5, '#DDDF0D'], // yellow
+                            [0.9, '#DF5353'] // red
+                        ],
+                        lineWidth: 0,
+                        minorTickInterval: null,
+                        tickAmount: 2,
+                        title: {
+                            y: -70
+                        },
+                        labels: {
+                            y: 16
+                        }
+                    },
+
+                    plotOptions: {
+                        solidgauge: {
+                            dataLabels: {
+                                y: 5,
+                                borderWidth: 0,
+                                useHTML: true
+                            }
+                        }
+                    }
+                }
+
+                var chartSpeed2 = new Highcharts.chart(Highcharts.merge(chart4Options, {
+                    yAxis: {
+                        min: 0,
+                        max: 200,
+                        title: {
+                            text: 'Speed'
+                        }
+                    },
+
+                    credits: {
+                        enabled: false
+                    },
+
+                    series: [{
+                        name: 'Speed',
+                        data: [80],
+                        dataLabels: {
+                            format: '<div style="text-align:center"><span style="font-size:15px;color:' +
+                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                            '<span style="font-size:12px;color:silver">km/h</span></div>'
+                        },
+                        tooltip: {
+                            valueSuffix: ' km/h'
+                        }
+                    }]
+
+                }));
+
+                // Bring life to the dials
+                setInterval(function () {
+                    // Speed
+                    var point,
+                        newVal,
+                        inc;
+
+                    if (chartSpeed) {
+                        point = chartSpeed.series[0].points[0];
+                        inc = Math.round((Math.random() - 0.5) * 100);
+                        newVal = point.y + inc;
+
+                        if (newVal < 0 || newVal > 200) {
+                            newVal = point.y - inc;
+                        }
+
+                        point.update(newVal);
+                    }
+
+                    if (chartSpeed2) {
+                        point = chartSpeed2.series[0].points[0];
+                        inc = Math.round((Math.random() - 0.5) * 100);
+                        newVal = point.y + inc;
+
+                        if (newVal < 0 || newVal > 200) {
+                            newVal = point.y - inc;
+                        }
+
+                        point.update(newVal);
+                    }
+
+                }, 2000);
+
+                var chart5Options = {
+
+                    chart: {
+                        renderTo: 'container_chart5',
+                        zoomType: 'x'
+                    },
+
+                    title: {
+                        text: 'USD to EUR exchange rate over time'
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                    },
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Exchange rate'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+
+                    series: [{
+                        type: 'area',
+                        name: 'USD to EUR',
+                        data: ([
+                            [Date.UTC(2015, 4, 24), 10],
+                            [Date.UTC(2015, 4, 25), 15],
+                            [Date.UTC(2015, 5, 26), 20],
+                            [Date.UTC(2015, 5, 27), 10],
+                            [Date.UTC(2015, 6, 4), 12],
+                            [Date.UTC(2015, 6, 14), 5],
+                            [Date.UTC(2015, 7, 20), 10],
+                            [Date.UTC(2015, 8, 2), 15],
+                            [Date.UTC(2015, 8, 4), 20],
+                            [Date.UTC(2015, 9, 4), 10],
+                            [Date.UTC(2015, 9, 8), 12],
+                            [Date.UTC(2015, 9, 15), 5]
+                        ])
+                    }]
+                }
+
+                new Highcharts.chart(chart5Options);
+
+                var chart6Options = {
+
+                    chart: {
+                        renderTo: 'container_chart6',
+                        type: 'pie'
+                    },
+
+                    title: {
+                        text: 'Browser market shares.'
+                    },
+                    subtitle: {
+                        text: 'Source: netmarketshare.com.'
+                    },
+                    plotOptions: {
+                        series: {
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.y:.1f}%'
+                            }
+                        }
+                    },
+
+                    tooltip: {
+                        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+                    },
+                    series: [{
+                        name: 'Brands',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Microsoft Internet Explorer',
+                            y: 56.33,
+                            drilldown: 'Microsoft Internet Explorer'
+                        }, {
+                            name: 'Chrome',
+                            y: 24.03,
+                            drilldown: 'Chrome'
+                        }, {
+                            name: 'Firefox',
+                            y: 10.38,
+                            drilldown: 'Firefox'
+                        }, {
+                            name: 'Safari',
+                            y: 4.77,
+                            drilldown: 'Safari'
+                        }, {
+                            name: 'Opera',
+                            y: 0.91,
+                            drilldown: 'Opera'
+                        }, {
+                            name: 'Proprietary or Undetectable',
+                            y: 0.2,
+                            drilldown: null
+                        }]
+                    }],
+                    drilldown: {
+                        series: [{
+                            name: 'Microsoft Internet Explorer',
+                            id: 'Microsoft Internet Explorer',
+                            data: [
+                                ['v11.0', 24.13],
+                                ['v8.0', 17.2],
+                                ['v9.0', 8.11],
+                                ['v10.0', 5.33],
+                                ['v6.0', 1.06],
+                                ['v7.0', 0.5]
+                            ]
+                        }, {
+                            name: 'Chrome',
+                            id: 'Chrome',
+                            data: [
+                                ['v40.0', 5],
+                                ['v41.0', 4.32],
+                                ['v42.0', 3.68],
+                                ['v39.0', 2.96],
+                                ['v36.0', 2.53],
+                                ['v43.0', 1.45],
+                                ['v31.0', 1.24],
+                                ['v35.0', 0.85],
+                                ['v38.0', 0.6],
+                                ['v32.0', 0.55],
+                                ['v37.0', 0.38],
+                                ['v33.0', 0.19],
+                                ['v34.0', 0.14],
+                                ['v30.0', 0.14]
+                            ]
+                        }, {
+                            name: 'Firefox',
+                            id: 'Firefox',
+                            data: [
+                                ['v35', 2.76],
+                                ['v36', 2.32],
+                                ['v37', 2.31],
+                                ['v34', 1.27],
+                                ['v38', 1.02],
+                                ['v31', 0.33],
+                                ['v33', 0.22],
+                                ['v32', 0.15]
+                            ]
+                        }, {
+                            name: 'Safari',
+                            id: 'Safari',
+                            data: [
+                                ['v8.0', 2.56],
+                                ['v7.1', 0.77],
+                                ['v5.1', 0.42],
+                                ['v5.0', 0.3],
+                                ['v6.1', 0.29],
+                                ['v7.0', 0.26],
+                                ['v6.2', 0.17]
+                            ]
+                        }, {
+                            name: 'Opera',
+                            id: 'Opera',
+                            data: [
+                                ['v12.x', 0.34],
+                                ['v28', 0.24],
+                                ['v27', 0.17],
+                                ['v29', 0.16]
+                            ]
+                        }]
+                    }
+                }
+
+                new Highcharts.chart(chart6Options);
+
+                var chart7Options = {
+
+                    chart: {
+                        renderTo: 'container_chart7',
+                        type: 'solidgauge',
+                        marginTop: 50
+                    },
+
+                    title: {
+                        text: 'Activity',
+                        style: {
+                            fontSize: '24px'
+                        }
+                    },
+
+                    tooltip: {
+                        borderWidth: 0,
+                        backgroundColor: 'none',
+                        shadow: false,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+                        positioner: function (labelWidth) {
+                            return {
+                                x: 200 - labelWidth / 2,
+                                y: 180
+                            };
+                        }
+                    },
+
+                    pane: {
+                        startAngle: 0,
+                        endAngle: 360,
+                        background: [{ // Track for Move
+                            outerRadius: '112%',
+                            innerRadius: '88%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0])
+                                .setOpacity(0.3)
+                                .get(),
+                            borderWidth: 0
+                        }, { // Track for Exercise
+                            outerRadius: '87%',
+                            innerRadius: '63%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1])
+                                .setOpacity(0.3)
+                                .get(),
+                            borderWidth: 0
+                        }, { // Track for Stand
+                            outerRadius: '62%',
+                            innerRadius: '38%',
+                            backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2])
+                                .setOpacity(0.3)
+                                .get(),
+                            borderWidth: 0
+                        }]
+                    },
+
+                    yAxis: {
+                        min: 0,
+                        max: 100,
+                        lineWidth: 0,
+                        tickPositions: []
+                    },
+
+                    plotOptions: {
+                        solidgauge: {
+                            dataLabels: {
+                                enabled: false
+                            },
+                            linecap: 'round',
+                            stickyTracking: false,
+                            rounded: true
+                        }
+                    },
+
+                    series: [{
+                        name: 'Move',
+                        data: [{
+                            color: Highcharts.getOptions().colors[0],
+                            radius: '112%',
+                            innerRadius: '88%',
+                            y: 80
+                        }]
+                    }, {
+                        name: 'Exercise',
+                        data: [{
+                            color: Highcharts.getOptions().colors[1],
+                            radius: '87%',
+                            innerRadius: '63%',
+                            y: 65
+                        }]
+                    }, {
+                        name: 'Stand',
+                        data: [{
+                            color: Highcharts.getOptions().colors[2],
+                            radius: '62%',
+                            innerRadius: '38%',
+                            y: 50
+                        }]
+                    }]
+                }
+
+                // if (!Highcharts.theme) {
+                //     Highcharts.setOptions({
+                //         chart: {
+                //             backgroundColor: 'black'
+                //         },
+                //         colors: ['#F62366', '#9DFF02', '#0CCDD6'],
+                //         title: {
+                //             style: {
+                //                 color: 'silver'
+                //             }
+                //         },
+                //         tooltip: {
+                //             style: {
+                //                 color: 'silver'
+                //             }
+                //         }
+                //     });
+                // }
+
+                new Highcharts.chart(chart7Options, function (callback) {
+                    // Move icon
+                    this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
+                        .attr({
+                            'stroke': '#303030',
+                            'stroke-linecap': 'round',
+                            'stroke-linejoin': 'round',
+                            'stroke-width': 2,
+                            'zIndex': 10
+                        })
+                        .translate(190, 26)
+                        .add(this.series[2].group);
+
+                    // Exercise icon
+                    this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8,
+                        'M', 8, -8, 'L', 16, 0, 8, 8])
+                        .attr({
+                            'stroke': '#ffffff',
+                            'stroke-linecap': 'round',
+                            'stroke-linejoin': 'round',
+                            'stroke-width': 2,
+                            'zIndex': 10
+                        })
+                        .translate(190, 61)
+                        .add(this.series[2].group);
+
+                    // Stand icon
+                    this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+                        .attr({
+                            'stroke': '#303030',
+                            'stroke-linecap': 'round',
+                            'stroke-linejoin': 'round',
+                            'stroke-width': 2,
+                            'zIndex': 10
+                        })
+                        .translate(190, 96)
+                        .add(this.series[2].group);
+                });
+            });
+        </script>
+</body>
+
+</html>
